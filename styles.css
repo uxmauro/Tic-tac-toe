@@ -1,0 +1,103 @@
+body {
+
+    background: linear-gradient(rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.6)), url(./assets/background.png);
+    background-color: #0f0f0f;
+    background-size: 182vh;
+    overflow-y: hidden;
+}
+
+
+.gamearea {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100vh;
+    background-image: url(./assets/shadow.svg);
+    background-position: 50%;
+
+}
+
+
+.gameboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    align-items: center;
+    height: fit-content;
+    background-image: url(./assets/gridbackground.svg);
+}
+
+.game-selection {
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    background-image: url(./assets/griditembackground.png);
+}
+
+.game-selection:hover {
+    background-size: 98px 98px;
+    background-position: 50%;
+    opacity: 98%;
+}
+
+
+.titleBoard {
+    width: 340px;
+    height: 48px;
+    background-image: url(./assets/titlegraphic.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 340px;
+    height: 80px;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.3s;
+}
+
+button:hover {
+    filter: brightness(160%);
+    opacity: 80%;
+    transition-duration: 0.3s;
+}
+
+#back {
+    width: 60px;
+    height: 60px;
+}
+
+#github {
+    width: 60px;
+    height: 60px;
+
+}
+
+#volume {
+
+    width: 60px;
+    height: 60px;
+}
+
+#restart {
+
+    width: 60px;
+    height: 60px;
+}
