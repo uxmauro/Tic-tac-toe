@@ -40,10 +40,20 @@ body {
     background-image: url(./assets/griditembackground.png);
 }
 
+
+
+
 .game-selection:hover {
     background-size: 98px 98px;
     background-position: 50%;
     opacity: 98%;
+
+}
+
+.already-selected {
+    background-color: #0f0f0f2b;
+    background-blend-mode: multiply;
+    pointer-events: none;
 }
 
 
@@ -79,6 +89,7 @@ button:hover {
     transition-duration: 0.3s;
 }
 
+
 #back {
     width: 60px;
     height: 60px;
@@ -100,4 +111,51 @@ button:hover {
 
     width: 60px;
     height: 60px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f0f0f60;
+    backdrop-filter: blur(8px);
+    width: 100vw;
+    height: 100vh;
+}
+
+.modal-player-one {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: 280px;
+    border-radius: 20px;
+    background-color: #fff;
+
+}
+
+.modal-player-two {
+    display: none;
+}
+
+#player-selection {
+    display: flex;
+    flex-direction: row;
+}
+
+.player-selection-x {
+    width: 100px;
+    height: 100px;
+    background-image: url(./assets/X.svg);
+    background-size: contain;
+}
+
+.player-selection-o {
+    width: 100px;
+    height: 100px;
+    background-image: url(./assets/O.svg);
+    background-size: contain;
 }

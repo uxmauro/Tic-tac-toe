@@ -9,25 +9,40 @@
     <link rel="icon" type="image/png" href="assets/favicon.png" />
   </head>
   <body>
+    <div class="modal">
+      <div class="modal-player-one">
+        <p>Player One</p>
+        <input type="text" id="Pic" placeholder="Player Name" />
+        <div id="player-selection">
+          <button>X</button>
+          <button>O</button>
+        </div>
+        <button>Start</button>
+      </div>
+      <div class="modal-player-two">Player Two</div>
+    </div>
     <div class="gamearea">
       <div class="titleBoard"></div>
       <div class="gameboard">
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
-        <div class="game-selection"></div>
+        <div class="game-selection" id="1"></div>
+        <div class="game-selection" id="2"></div>
+
+        <div class="game-selection" id="3"></div>
+        <div class="game-selection" id="4"></div>
+        <div class="game-selection" id="5"></div>
+        <div class="game-selection" id="6"></div>
+        <div class="game-selection" id="7"></div>
+        <div class="game-selection" id="8"></div>
+        <div class="game-selection" id="9"></div>
       </div>
       <div class="buttons">
         <button id="back">
           <img src="./assets/back.svg" alt="" srcset="" />
         </button>
         <button id="github">
-          <img src="./assets/github.svg" alt="" srcset="" />
+          <a href="http://github.com/uxmauro" target="_blank"
+            ><img src="./assets/github.svg" alt="" srcset=""
+          /></a>
         </button>
         <button id="volume">
           <img src="./assets/volume.svg" alt="" srcset="" />
