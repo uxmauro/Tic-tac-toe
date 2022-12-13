@@ -22,11 +22,12 @@
       <div class="modal-player-two">Player Two</div>
     </div>
     <div class="gamearea">
-      <div class="titleBoard"></div>
+      <div class="titleBoard">
+        <img id="titleText" src="" alt="" srcset="" />
+      </div>
       <div class="gameboard">
         <div class="game-selection" id="1"></div>
         <div class="game-selection" id="2"></div>
-
         <div class="game-selection" id="3"></div>
         <div class="game-selection" id="4"></div>
         <div class="game-selection" id="5"></div>
@@ -45,7 +46,13 @@
           /></a>
         </button>
         <button id="volume">
-          <img src="./assets/volume.svg" alt="" srcset="" />
+          <img id="audioImg" src="./assets/volume.svg" alt="" srcset="" />
+          <audio loop id="track" preload="auto">
+            <source
+              src="https://cdn.freesound.org/previews/384/384468_2305278-lq.mp3"
+              type="audio/mpeg"
+            />
+          </audio>
         </button>
         <button id="restart">
           <img src="./assets/restart.svg" alt="" srcset="" />

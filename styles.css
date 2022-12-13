@@ -58,6 +58,9 @@ body {
 
 
 .titleBoard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 340px;
     height: 48px;
     background-image: url(./assets/titlegraphic.svg);
@@ -75,6 +78,9 @@ body {
 }
 
 button {
+
+    width: 120px;
+    height: 120px;
     all: unset;
     cursor: pointer;
     display: flex;
@@ -82,6 +88,13 @@ button {
     justify-content: center;
     transition-duration: 0.3s;
 }
+
+
+button img {
+    width: 120px;
+    height: 120px;
+}
+
 
 button:hover {
     filter: brightness(160%);
@@ -158,4 +171,8 @@ button:hover {
     height: 100px;
     background-image: url(./assets/O.svg);
     background-size: contain;
+}
+
+#titleText {
+    height: 3.4vh;
 }

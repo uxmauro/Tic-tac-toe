@@ -10,11 +10,10 @@ let eight = document.getElementById("8")
 let nine = document.getElementById("9")
 
 
-let setElement = false
 
 //Event Listeners
-one.addEventListener("click", () => Selected(1, setElement))
-two.addEventListener("click", () => Selected(2, setElement)) 
+one.addEventListener("click", () => Selected(1))
+two.addEventListener("click", () => Selected(2)) 
 three.addEventListener("click", () => Selected(3)) 
 four.addEventListener("click", () => Selected(4)) 
 five.addEventListener("click", () => Selected(5)) 
@@ -27,28 +26,51 @@ let Playerx = true
 let Playero = false
 
 function Selected(number) {   
- playerOne.Selection.push(number)
- console.log(number)
- console.log("PlayerOne" + " " + playerOne.Selection)
- console.log(playerOne)
- document.getElementById(number).classList.add('already-selected')
- if (Playerx == true && Playero == false) {
-   Playerx = false;
-   Playero = true;
-   console.log(Playerx +" "+ Playero)
-   const pSelection = document.createElement("div");
-   pSelection.classList.add('player-selection-x');
-   document.getElementById(number).appendChild(pSelection)
+   
+   
+   const title = document.getElementById("titleText")
+   
+   
+   
+   console.log(number)
+   document.getElementById(number).classList.add('already-selected')
+   if (Playerx == true && Playero == false) {
+      title.src = "./assets/oturn.svg"
+      playerOne.Selection.push(number)
+      console.log("PlayerOne" + " " + playerOne.Selection)
+      console.log(playerOne)
+      Playerx = false;
+      Playero = true;
+      console.log(Playerx +" "+ Playero)
+      const pSelection = document.createElement("div");
+      pSelection.classList.add('player-selection-x');
+      document.getElementById(number).appendChild(pSelection)
 
-} else{
+      findWinner(playerOne.Selection, "PlayerOne")
+      return playerOne.Selection
+
+      
+      
+   } else{
+      title.src = "./assets/xturn.svg"
+      playerTwo.Selection.push(number)
+      console.log("PlayerTwo" + " " + playerTwo.Selection)
+      console.log(playerTwo)
+      
+
    Playerx = true;
    Playero = false;
    console.log(Playerx +" "+ Playero)
 
+
    const pSelection = document.createElement("div");
    pSelection.classList.add('player-selection-o');
    document.getElementById(number).appendChild(pSelection)
+
+   findWinner(playerTwo.Selection, "PlayerTwo")   
 }
+
+
 
 
 }
@@ -62,7 +84,50 @@ let playerTwo = {
 }
 
 
+function findWinner(array, player) {
+      if(array.includes(1) && array.includes(2) && array.includes(3) 
+      || array.includes(1) && array.includes(4) && array.includes(7) 
+      || array.includes(1) && array.includes(5) && array.includes(9) 
+      || array.includes(1) && array.includes(2) && array.includes(3)
+      || array.includes(4) && array.includes(5) && array.includes(6)
+      || array.includes(7) && array.includes(8) && array.includes(9)
+      || array.includes(2) && array.includes(5) && array.includes(8)
+      || array.includes(3) && array.includes(6) && array.includes(9)
+      || array.includes(3) && array.includes(5) && array.includes(7)
+      ){
+         alert(player +"  Wins!")
+      };
+    }
 
+
+
+
+window.onload = function() {
+   document.getElementById("track").play();
+}
+
+let track = document.getElementById('track');
+let controlBtn = document.getElementById('volume');
+let audioImg = document.getElementById('audioImg'); 
+
+function playPause() {
+    if (track.paused) {
+        track.play();
+        audioImg.src = "./assets/volume.svg"
+        //controlBtn.textContent = "Pause";
+        controlBtn.className = "pause";
+    } else { 
+        track.pause();
+         //controlBtn.textContent = "Play";
+        controlBtn.className = "play";
+        audioImg.src = "./assets/novolume.svg"
+    }
+}
+
+controlBtn.addEventListener("click", playPause);
+track.addEventListener("ended", function() {
+  controlBtn.className = "play";
+});
 
 
 
@@ -121,4 +186,6 @@ User wins
 /* If player X && player O did not win and there are no more fileds */
 
 //1vs1, 1 vs Computer, 1 vs imposible
+
+
 
