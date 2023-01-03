@@ -9,7 +9,17 @@ let seven = document.getElementById("7")
 let eight = document.getElementById("8")
 let nine = document.getElementById("9")
 
+let modal = document.querySelector(".modal")
+let modalX = document.getElementById("player-selection-x")
+let modalO = document.getElementById("player-selection-o")
+let modlaPlayerTitle = document.getElementById("modal-title-player")
+let selectShapeTitle = document.getElementById("selectShape")
 
+let restart = document.querySelector("#restart")
+let back = document.querySelector("#back")
+
+
+const title = document.getElementById("titleText")
 
 //Event Listeners
 one.addEventListener("click", () => Selected(1))
@@ -22,16 +32,117 @@ seven.addEventListener("click", () => Selected(7))
 eight.addEventListener("click", () => Selected(8)) 
 nine.addEventListener("click", () => Selected(9)) 
 
+back.addEventListener("click", () => window.location.reload() )
+
+let playername = document.getElementById("Player-name");
+let next = document.getElementById('next')
+let start = document.getElementById('start')
+let gameboard = document.querySelector(".gameboard")
+let chooseGame = document.querySelector(".chooseGame")
+
+playername.addEventListener('input', CheckInput);
+
 let Playerx = true
 let Playero = false
 
+let modalSelection = false;
+
+function Gamestarted() {
+   let startGame = false;
+}
+
+
+function verzus() {
+   modal.style.display = "flex"
+   next.style.backgroundImage = 'url(./assets/next.svg)'
+   next.addEventListener('click', () => nextPlayerGameVersus())
+}
+
+function computer() {
+   modal.style.display = "flex"
+   next.style.backgroundImage = 'url(./assets/start.svg)'
+   next.addEventListener('click', () => startGameImpossible())
+}
+
+function impossible() {
+   modal.style.display = "flex"
+   next.style.backgroundImage = 'url(./assets/start.svg)'
+   next.addEventListener('click', () => startGameImpossible())
+
+}
+
+let nextPlayerGameVersus = () => {
+   modalX.style.display = "none"
+   modalO.style.display = "none"
+   modlaPlayerTitle.src = ("./assets/playertwo-title.svg")
+   selectShapeTitle.style.display = "none"
+   playername.value = "";
+   next.style.display = "none"
+   start.style.display = "flex"
+   playername.addEventListener('input', () => ChangePlayerTwo ())
+   let ChangePlayerTwo = () => {
+      start.style.cursor = "pointer"
+      start.style.pointerEvents = "all"
+      start.style.opacity = 100+"%"
+      start.addEventListener("click", () => startGameImpossible() )
+   }
+ 
+ 
+}
+
+let startGameImpossible = () => {
+   closeModal()
+   title.src = "./assets/xturn.svg"
+   gameboard.style.display = "grid"
+   chooseGame.style.display = "none"
+   restart.style.display = "flex"
+   back.style.display = "flex"
+}
+
+
+
+ 
+
+//Player Selection Modal
+function selectX(selected){
+      let x = document.getElementById(selected.id)
+      x.style.backgroundImage = 'url(./assets/selected-shape-x.svg)'
+      let o = document.getElementById('player-selection-o')
+      o.style.backgroundImage = 'url(./assets/player-selection-o.svg)'
+      modalSelection = true;
+      CheckInput()
+}
+
+function selectO(selected){
+      let o = document.getElementById(selected.id)
+      o.style.backgroundImage = 'url(./assets/selected-shape-o.svg)'
+      let x = document.getElementById('player-selection-x')
+      x.style.backgroundImage = 'url(./assets/player-selection-x.svg)'
+      modalSelection = true;
+      CheckInput()
+}
+
+function CheckInput() {
+   if (playername.value != "" && modalSelection == true ) {
+     next.style.cursor = "pointer"
+     next.style.pointerEvents = "all"
+     next.style.opacity = 100+"%"
+   }
+ }
+ 
+   function closeModal(){
+      next.style.pointerEvents = "none"
+      next.style.opacity = 10+"%"
+      modal.style.display = "none"
+      playername.value = "";
+      modalO = 'url(./assets/player-selection-o.svg)'
+      modalX = 'url(./assets/player-selection-x.svg)'
+
+    }
+
+
+
 function Selected(number) {   
-   
-   
-   const title = document.getElementById("titleText")
-   
-   
-   
    console.log(number)
    document.getElementById(number).classList.add('already-selected')
    if (Playerx == true && Playero == false) {
@@ -47,17 +158,13 @@ function Selected(number) {
       document.getElementById(number).appendChild(pSelection)
 
       findWinner(playerOne.Selection, "PlayerOne")
-      return playerOne.Selection
-
-      
-      
+      return playerOne.Selection      
    } else{
       title.src = "./assets/xturn.svg"
       playerTwo.Selection.push(number)
       console.log("PlayerTwo" + " " + playerTwo.Selection)
       console.log(playerTwo)
       
-
    Playerx = true;
    Playero = false;
    console.log(Playerx +" "+ Playero)
@@ -131,12 +238,6 @@ track.addEventListener("ended", function() {
 
 
 
-
-/* 
-const elementSelection = (id, wasSelected) => {
-     
-} */
-
 /* 
 let player = (name, selection) => {
    let selection = selection;
@@ -153,39 +254,6 @@ let Gameboard = {
 console.log(Gameboard.game)
 
 
-/* loop after each selection if array contains 
-
-1 && 2 && 3 || 4 && 5 && 6 || 7 && 8 && 9 || 1 && 4 && 7 || 1 && 5 && 9 || 2 && 5 && 8 || 3 && 6 && 9 || 3 && 5 && 7
-User wins
-*/
-
-/* if 1 - 9 are used and no winner then tie */
-
-
-
-//Logic: if not selected set in array and mark on display
-
-//Logic: show winner when a user connects three
-
-
-// Logic for rounds
-
-//winning secuences
-
-/*  123
-    456
-    789 */
-
-/* 123,147,159 , 258, 369, 753, 789 */
-
-//how to know which user played
-
-// X & O
-
-//draw
-/* If player X && player O did not win and there are no more fileds */
-
-//1vs1, 1 vs Computer, 1 vs imposible
 
 
 

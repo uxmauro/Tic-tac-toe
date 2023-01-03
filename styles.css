@@ -1,5 +1,12 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
+
+* {
+
+    font-family: "Poppins", Helvetica, sans-serif;
+}
+
+body {
     background: linear-gradient(rgba(0, 0, 0, 0.6),
             rgba(0, 0, 0, 0.6)), url(./assets/background.png);
     background-color: #0f0f0f;
@@ -21,9 +28,55 @@ body {
 
 }
 
+.chooseGame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    height: 340px;
+    width: 340px;
+}
+
+#vs {
+    margin-top: 12px;
+    width: 354px;
+    height: 64px;
+    background-image: url(./assets/vs-button.svg);
+    filter: drop-shadow(0px 2px 6px rgba(0, 0, 0, 1));
+}
+
+#computer {
+    width: 354px;
+    height: 64px;
+    background-image: url(./assets/computer-button.svg);
+    filter: drop-shadow(0px 2px 6px rgba(0, 0, 0, 1));
+
+}
+
+#impossible {
+    width: 354px;
+    height: 64px;
+    background-image: url(./assets/impossible-button.svg);
+    filter: drop-shadow(0px 2px 6px rgba(0, 0, 0, 1));
+
+}
+
+.game-mode {
+
+    margin-top: 20px;
+    width: 354px;
+    height: 44px;
+    background-image: url(./assets/gamemode.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
 
 .gameboard {
-    display: grid;
+    /* 
+    display: grid; */
+    display: none;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     grid-column-gap: 20px;
@@ -39,7 +92,6 @@ body {
     height: 100px;
     background-image: url(./assets/griditembackground.png);
 }
-
 
 
 
@@ -72,7 +124,10 @@ body {
 
 .buttons {
     display: flex;
-    justify-content: space-around;
+    /* 
+    justify-content: space-around; */
+    justify-content: center;
+    gap: 24px;
     width: 340px;
     height: 80px;
 }
@@ -104,6 +159,7 @@ button:hover {
 
 
 #back {
+    display: none;
     width: 60px;
     height: 60px;
 }
@@ -115,13 +171,13 @@ button:hover {
 }
 
 #volume {
-
     width: 60px;
     height: 60px;
 }
 
 #restart {
 
+    display: none;
     width: 60px;
     height: 60px;
 }
@@ -140,19 +196,50 @@ button:hover {
 
 .modal-player-one {
     display: flex;
+    z-index: 2;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20vw;
-    height: 280px;
+    box-sizing: border-box;
+    color: white;
+    width: 686px;
+    height: 508px;
+    background: #101418;
+    box-shadow: 0px 4px 64px 30px rgba(0, 0, 0, 0.65);
+    border: double 2px transparent;
     border-radius: 20px;
-    background-color: #fff;
+    background-image: linear-gradient(#101418, #0C0F12), radial-gradient(circle at top, rgb(255, 255, 255), #363636);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 
 }
 
-.modal-player-two {
-    display: none;
+input {
+
+    color: white;
+    border: 0;
+    height: 52px;
+    border-radius: 8px;
+    width: 82%;
+    margin-bottom: 24px;
+    margin-top: 24px;
+    outline: none;
+    padding-left: 24px;
+    background-image: url(./assets/input-background.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: rgba(0, 0, 0, 0);
+
+
 }
+
+
+input:focus {
+    filter: brightness(1.1);
+}
+
+
 
 #player-selection {
     display: flex;
@@ -173,6 +260,71 @@ button:hover {
     background-size: contain;
 }
 
+
 #titleText {
     height: 3.4vh;
+}
+
+#player-selection-x {
+    margin: 10px;
+    height: 120px;
+    width: 268px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(./assets/player-selection-x.svg);
+}
+
+
+#player-selection-o {
+    margin: 10px;
+    height: 120px;
+    width: 268px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(./assets/player-selection-o.svg);
+}
+
+#player-selection-x:hover {
+    width: 264px;
+}
+
+
+#player-selection-o:hover {
+    width: 264px;
+}
+
+#next {
+    width: 88%;
+    height: 54px;
+    opacity: 10%;
+    pointer-events: none;
+    margin-top: 20px;
+    margin-bottom: 2px;
+    background-image: url(./assets/next.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#start {
+    display: none;
+    width: 88%;
+    height: 54px;
+    opacity: 10%;
+    pointer-events: none;
+    margin-top: 20px;
+    margin-bottom: 2px;
+    background-image: url(./assets/start.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.modalBack {
+    position: fixed;
+    width: 100vw;
+    height: 200vh;
+    background: rgba(36, 36, 36, 0.157);
+    backdrop-filter: blur(4px);
+    z-index: 1;
 }
