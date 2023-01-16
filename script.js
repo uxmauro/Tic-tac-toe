@@ -32,7 +32,7 @@ seven.addEventListener("click", () => Selected(7))
 eight.addEventListener("click", () => Selected(8)) 
 nine.addEventListener("click", () => Selected(9)) 
 
-back.addEventListener("click", () => window.location.reload() )
+back.addEventListener("click", () => window.location.reload())
 
 let playername = document.getElementById("Player-name");
 let next = document.getElementById('next')
@@ -46,6 +46,25 @@ let Playerx = true
 let Playero = false
 
 let modalSelection = false;
+
+//Set up Gameboard Array in gameboard object
+let Gameboard = {
+   game: []
+}
+
+
+let playerOne = {
+   Selection: [],
+   name: ""
+}
+
+
+let playerTwo = {
+   Selection: [],
+   name: ""
+}
+
+let gameOver = false;
 
 function Gamestarted() {
    let startGame = false;
@@ -61,7 +80,7 @@ function verzus() {
 function computer() {
    modal.style.display = "flex"
    next.style.backgroundImage = 'url(./assets/start.svg)'
-   next.addEventListener('click', () => startGameImpossible())
+   next.addEventListener('click', () => startGameComputer())
 }
 
 function impossible() {
@@ -71,7 +90,9 @@ function impossible() {
 
 }
 
+
 let nextPlayerGameVersus = () => {
+   playerOne.name = playername.value
    modalX.style.display = "none"
    modalO.style.display = "none"
    modlaPlayerTitle.src = ("./assets/playertwo-title.svg")
@@ -79,18 +100,22 @@ let nextPlayerGameVersus = () => {
    playername.value = "";
    next.style.display = "none"
    start.style.display = "flex"
-   playername.addEventListener('input', () => ChangePlayerTwo ())
-   let ChangePlayerTwo = () => {
+   playername.addEventListener('input', () => enableStart ())
+   playername.addEventListener('change', () => ChangePlayerTwo ())
+   let enableStart = () => {
       start.style.cursor = "pointer"
       start.style.pointerEvents = "all"
       start.style.opacity = 100+"%"
-      start.addEventListener("click", () => startGameImpossible() )
    }
- 
- 
+   let ChangePlayerTwo = () => {
+      start.addEventListener("click", () => startGameVerzus())
+      playerTwo.name = playername.value
+   }
 }
 
-let startGameImpossible = () => {
+
+
+let startGameUI = () => {
    closeModal()
    title.src = "./assets/xturn.svg"
    gameboard.style.display = "grid"
@@ -99,8 +124,41 @@ let startGameImpossible = () => {
    back.style.display = "flex"
 }
 
+let startGameVerzus = () => {
+   startGameUI()
+   console.log(playerTwo.name)
+}
+
+let startGameImpossible = () => {
+   startGameUI()
+}
+
+let startGameComputer = () => {
+   startGameUI()
+   randomComputerLogic()
+}
 
 
+let randomComputerLogic = () => {
+      let play =  Math.floor(Math.random() * 3);;
+      switch (play) {
+         case 0:
+            console.log("ROCK");
+            break;
+            case 1:
+               console.log("ROCK");
+               break;
+               case 2:
+                  console.log("ROCK");
+                  break;
+            
+                  }
+                  
+               }
+
+let restartGame = () => {
+   return
+}
  
 
 //Player Selection Modal
@@ -148,22 +206,26 @@ function Selected(number) {
    if (Playerx == true && Playero == false) {
       title.src = "./assets/oturn.svg"
       playerOne.Selection.push(number)
+      Gameboard.game.push(number)
       console.log("PlayerOne" + " " + playerOne.Selection)
       console.log(playerOne)
+      console.log("Gameboard = " + Gameboard.game)
       Playerx = false;
       Playero = true;
       console.log(Playerx +" "+ Playero)
       const pSelection = document.createElement("div");
       pSelection.classList.add('player-selection-x');
       document.getElementById(number).appendChild(pSelection)
-
-      findWinner(playerOne.Selection, "PlayerOne")
+      findWinner(playerOne.Selection, playerOne.name)
+      tieGame(Gameboard.game)
       return playerOne.Selection      
    } else{
       title.src = "./assets/xturn.svg"
       playerTwo.Selection.push(number)
+      Gameboard.game.push(number)
       console.log("PlayerTwo" + " " + playerTwo.Selection)
       console.log(playerTwo)
+      console.log("Gameboard = " + Gameboard.game)
       
    Playerx = true;
    Playero = false;
@@ -174,22 +236,11 @@ function Selected(number) {
    pSelection.classList.add('player-selection-o');
    document.getElementById(number).appendChild(pSelection)
 
-   findWinner(playerTwo.Selection, "PlayerTwo")   
+   findWinner(playerTwo.Selection, playerTwo.name)   
+   tieGame(Gameboard.game)
 }
 
-
-
-
 }
-let playerOne = {
-   Selection: []
-}
-
-
-let playerTwo = {
-   Selection: []
-}
-
 
 function findWinner(array, player) {
       if(array.includes(1) && array.includes(2) && array.includes(3) 
@@ -203,12 +254,29 @@ function findWinner(array, player) {
       || array.includes(3) && array.includes(5) && array.includes(7)
       ){
          alert(player +"  Wins!")
+         return gameOver = true
       };
     }
 
+    function tieGame(array) {
+      if (gameOver == true) {
+       return
+      }else{
+      let isTie = true;
+      for (let i = 1; i <= 9; i++) {
+        if (!array.includes(i)) {
+          isTie = false;
+          break;
+        }
+      }
+      if (isTie) {
+        alert("tie!!!");
+      }
+    }
+   }
 
 
-
+//Background Music    
 window.onload = function() {
    document.getElementById("track").play();
 }
@@ -245,13 +313,9 @@ let player = (name, selection) => {
     return {name, selection, lives}
 } */
 
-//Set up Gameboard Array in gameboard object
 
-let Gameboard = {
-     game: [1,2,3,4,5,6,7,8,9]
-}
 
-console.log(Gameboard.game)
+
 
 
 
