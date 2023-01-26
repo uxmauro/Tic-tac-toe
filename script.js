@@ -47,6 +47,9 @@ let Playero = false
 
 let modalSelection = false;
 
+let xSelected = false
+let oSelected = false
+
 //Set up Gameboard Array in gameboard object
 let Gameboard = {
    game: []
@@ -92,6 +95,12 @@ function impossible() {
 
 
 let nextPlayerGameVersus = () => {
+if (oSelected == true) {
+   console.log('test')
+}
+ else if (xSelected == true) {
+   console.log('testing x')
+}
    playerOne.name = playername.value
    modalX.style.display = "none"
    modalO.style.display = "none"
@@ -138,23 +147,12 @@ let startGameComputer = () => {
    randomComputerLogic()
 }
 
+let randomComputer = false;
 
 let randomComputerLogic = () => {
-      let play =  Math.floor(Math.random() * 3);;
-      switch (play) {
-         case 0:
-            console.log("ROCK");
-            break;
-            case 1:
-               console.log("ROCK");
-               break;
-               case 2:
-                  console.log("ROCK");
-                  break;
-            
-                  }
-                  
-               }
+   randomComputer = true
+  
+}
 
 let restartGame = () => {
    return
@@ -163,6 +161,8 @@ let restartGame = () => {
 
 //Player Selection Modal
 function selectX(selected){
+      xSelected = true
+      oSelected = false
       let x = document.getElementById(selected.id)
       x.style.backgroundImage = 'url(./assets/selected-shape-x.svg)'
       let o = document.getElementById('player-selection-o')
@@ -172,6 +172,8 @@ function selectX(selected){
 }
 
 function selectO(selected){
+      oSelected = true
+      xSelected = false
       let o = document.getElementById(selected.id)
       o.style.backgroundImage = 'url(./assets/selected-shape-o.svg)'
       let x = document.getElementById('player-selection-x')
@@ -198,10 +200,55 @@ function CheckInput() {
 
     }
 
+let SelectRandom = () => {
+   let randomNumber
+   if (Gameboard.game.length < 9 && !Gameboard.game.includes(randomNumber)) {
+      randomNumber =  Math.floor(Math.random() * 9) + 1;} else {
+         SelectRandom()
+      }  
+      if (Gameboard.game.includes(randomNumber)) {
+         SelectRandom()
+      } else{
+         let number = randomNumber
+         title.src = "./assets/xturn.svg"
+         playerTwo.Selection.push(number)
+         Gameboard.game.push(number)
+         console.log("PlayerTwo" + " " + playerTwo.Selection)
+         console.log("Gameboard = " + Gameboard.game)
+         Playerx = true;
+         Playero = false;
+         console.log(Playerx +" "+ Playero)
+         const pSelection = document.createElement("div");
+         pSelection.classList.add('player-selection-o');
+         document.getElementById(number).appendChild(pSelection)
+         findWinner(playerTwo.Selection, playerTwo.name)   
+         tieGame(Gameboard.game)
+         
+      }
+   }
+   
 
 
 function Selected(number) {   
-   console.log(number)
+   if (randomComputer == true) {
+      if (Playerx == true && Playero == false) {
+         title.src = "./assets/oturn.svg"
+         playerOne.Selection.push(number)
+         Gameboard.game.push(number)
+         console.log("PlayerOne" + " " + playerOne.Selection)
+         console.log(playerOne)
+         console.log("Gameboard = " + Gameboard.game)
+         Playerx = false;
+         Playero = true;
+         console.log(Playerx +" "+ Playero)
+         const pSelection = document.createElement("div");
+         pSelection.classList.add('player-selection-x');
+         document.getElementById(number).appendChild(pSelection)
+         findWinner(playerOne.Selection, playerOne.name)
+         tieGame(Gameboard.game)
+         SelectRandom()
+      }
+      } else{
    document.getElementById(number).classList.add('already-selected')
    if (Playerx == true && Playero == false) {
       title.src = "./assets/oturn.svg"
@@ -226,22 +273,19 @@ function Selected(number) {
       console.log("PlayerTwo" + " " + playerTwo.Selection)
       console.log(playerTwo)
       console.log("Gameboard = " + Gameboard.game)
-      
-   Playerx = true;
-   Playero = false;
-   console.log(Playerx +" "+ Playero)
+      Playerx = true;
+      Playero = false;
+      console.log(Playerx +" "+ Playero)
 
+      const pSelection = document.createElement("div");
+      pSelection.classList.add('player-selection-o');
+      document.getElementById(number).appendChild(pSelection)
 
-   const pSelection = document.createElement("div");
-   pSelection.classList.add('player-selection-o');
-   document.getElementById(number).appendChild(pSelection)
-
-   findWinner(playerTwo.Selection, playerTwo.name)   
-   tieGame(Gameboard.game)
+      findWinner(playerTwo.Selection, playerTwo.name)   
+      tieGame(Gameboard.game)
 }
 
-}
-
+}}
 function findWinner(array, player) {
       if(array.includes(1) && array.includes(2) && array.includes(3) 
       || array.includes(1) && array.includes(4) && array.includes(7) 
