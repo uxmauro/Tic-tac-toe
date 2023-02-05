@@ -9,6 +9,15 @@
     <link rel="icon" type="image/png" href="assets/favicon.png" />
   </head>
   <body>
+    <div class="end-game-modal">
+      <div class="gameend">
+        <h2 id="player-winner-name"></h2>
+        <h1 id="game-message">WINS!</h1>
+        <button id="play-again">PLAY AGAIN</button>
+        <button id="main-menu">MAIN MENU</button>
+      </div>
+    </div>
+
     <div class="modal">
       <div class="modal-player-one border-gradient-purple">
         <img id="modal-title-player" src="./assets/playerone-title.svg" />
@@ -16,13 +25,13 @@
         <div class="grounded-radiants"></div>
         <img id="selectShape" src="./assets/selectshape-title.svg" />
         <div id="player-selection">
-          <button id="player-selection-x" onclick="selectX(this)"></button>
-          <button id="player-selection-o" onclick="selectO(this)"></button>
+          <button id="player-selection-x"></button>
+          <button id="player-selection-o"></button>
         </div>
         <button id="next"></button>
         <button id="start"></button>
       </div>
-      <div class="modalBack" onclick="closeModal()"></div>
+      <div class="modalBack"></div>
     </div>
     <div class="gamearea">
       <div class="titleBoard">
@@ -46,9 +55,9 @@
       </div>
       <div class="chooseGame">
         <div class="game-mode"></div>
-        <button onclick="verzus()" id="vs"></button>
-        <button onclick="computer()" id="computer"></button>
-        <button onclick="impossible()" id="impossible"></button>
+        <button id="vs"></button>
+        <button id="computer"></button>
+        <button id="impossible"></button>
       </div>
       <div class="buttons">
         <button id="back">

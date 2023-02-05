@@ -1,38 +1,25 @@
-//Get Elements
-let one = document.getElementById("1")
-let two = document.getElementById("2")
-let three = document.getElementById("3")
-let four = document.getElementById("4")
-let five = document.getElementById("5")
-let six = document.getElementById("6")
-let seven = document.getElementById("7")
-let eight = document.getElementById("8")
-let nine = document.getElementById("9")
+
 
 let modal = document.querySelector(".modal")
+let modalBack = document.querySelector(".modalBack")
+let endofgamemodal = document.querySelector(".end-game-modal")
 let modalX = document.getElementById("player-selection-x")
 let modalO = document.getElementById("player-selection-o")
 let modlaPlayerTitle = document.getElementById("modal-title-player")
 let selectShapeTitle = document.getElementById("selectShape")
+let WinnerplayerName = document.getElementById("player-winner-name")
+let mainMenuButton = document.getElementById("main-menu")
+let vs = document.getElementById("vs")
+let computerButton = document.getElementById("computer")
+let impossibleButton = document.getElementById("impossible")
+let playAgainBtn = document.getElementById("play-again")
+let mainMenu = document.getElementById("main-menu")
+let gameMessage = document.getElementById("game-message")
 
 let restart = document.querySelector("#restart")
 let back = document.querySelector("#back")
-
-
 const title = document.getElementById("titleText")
-
-//Event Listeners
-one.addEventListener("click", () => Selected(1))
-two.addEventListener("click", () => Selected(2)) 
-three.addEventListener("click", () => Selected(3)) 
-four.addEventListener("click", () => Selected(4)) 
-five.addEventListener("click", () => Selected(5)) 
-six.addEventListener("click", () => Selected(6)) 
-seven.addEventListener("click", () => Selected(7)) 
-eight.addEventListener("click", () => Selected(8)) 
-nine.addEventListener("click", () => Selected(9)) 
-
-back.addEventListener("click", () => window.location.reload())
+const squares =  document.querySelectorAll(".game-selection")
 
 let playername = document.getElementById("Player-name");
 let next = document.getElementById('next')
@@ -40,7 +27,23 @@ let start = document.getElementById('start')
 let gameboard = document.querySelector(".gameboard")
 let chooseGame = document.querySelector(".chooseGame")
 
+squares.forEach(square => {
+   square.addEventListener("click", () => 
+   Selected(+square.id)  )
+})
+
+
+back.addEventListener("click", () => window.location.reload())
 playername.addEventListener('input', CheckInput);
+vs.addEventListener("click", () => verzus())
+computerButton.addEventListener("click", () => computer())
+impossibleButton.addEventListener("click", () => impossible())
+modalBack.addEventListener("click", () => closeModal())
+modalX.addEventListener("click", () => selectX())
+modalO.addEventListener("click", () => selectO())
+mainMenu.addEventListener("click", () => window.location.reload())
+playAgainBtn.addEventListener("click", () => window.location.reload())
+
 
 let Playerx = true
 let Playero = false
@@ -92,15 +95,23 @@ function impossible() {
    next.addEventListener('click', () => startGameImpossible())
 
 }
+function EndGameModal(winner) {
+   endofgamemodal.style.display = "flex"
+   if(winner == "tie"){
+      gameMessage.innerText = "It's a Tie"
+   } else{
+   WinnerplayerName.innerText = winner
+   }
+}
 
 
 let nextPlayerGameVersus = () => {
-if (oSelected == true) {
+/* if (oSelected == true) {
    console.log('test')
 }
  else if (xSelected == true) {
    console.log('testing x')
-}
+} */
    playerOne.name = playername.value
    modalX.style.display = "none"
    modalO.style.display = "none"
@@ -134,6 +145,7 @@ let startGameUI = () => {
 }
 
 let startGameVerzus = () => {
+   playerTwo.name = playername.value
    startGameUI()
    console.log(playerTwo.name)
 }
@@ -143,6 +155,8 @@ let startGameImpossible = () => {
 }
 
 let startGameComputer = () => {
+   playerOne.name = playername.value
+   playerTwo.name = "Computer"
    startGameUI()
    randomComputerLogic()
 }
@@ -160,24 +174,20 @@ let restartGame = () => {
  
 
 //Player Selection Modal
-function selectX(selected){
+function selectX(){
       xSelected = true
       oSelected = false
-      let x = document.getElementById(selected.id)
-      x.style.backgroundImage = 'url(./assets/selected-shape-x.svg)'
-      let o = document.getElementById('player-selection-o')
-      o.style.backgroundImage = 'url(./assets/player-selection-o.svg)'
+      modalX.style.backgroundImage = 'url(./assets/selected-shape-x.svg)'
+      modalO.style.backgroundImage = 'url(./assets/player-selection-o.svg)'
       modalSelection = true;
       CheckInput()
 }
 
-function selectO(selected){
+function selectO(){
       oSelected = true
       xSelected = false
-      let o = document.getElementById(selected.id)
-      o.style.backgroundImage = 'url(./assets/selected-shape-o.svg)'
-      let x = document.getElementById('player-selection-x')
-      x.style.backgroundImage = 'url(./assets/player-selection-x.svg)'
+      modalO.style.backgroundImage = 'url(./assets/selected-shape-o.svg)'
+      modalX.style.backgroundImage = 'url(./assets/player-selection-x.svg)'
       modalSelection = true;
       CheckInput()
 }
@@ -195,13 +205,12 @@ function CheckInput() {
       next.style.opacity = 10+"%"
       modal.style.display = "none"
       playername.value = "";
-      modalO = 'url(./assets/player-selection-o.svg)'
-      modalX = 'url(./assets/player-selection-x.svg)'
-
+      modalX.style.backgroundImage = 'url(./assets/player-selection-x.svg)'
+      modalO.style.backgroundImage = 'url(./assets/player-selection-o.svg)'
     }
 
 let SelectRandom = () => {
-   let randomNumber
+let randomNumber
    if (Gameboard.game.length < 9 && !Gameboard.game.includes(randomNumber)) {
       randomNumber =  Math.floor(Math.random() * 9) + 1;} else {
          SelectRandom()
@@ -230,14 +239,12 @@ let SelectRandom = () => {
 
 
 function Selected(number) {   
+
    if (randomComputer == true) {
       if (Playerx == true && Playero == false) {
          title.src = "./assets/oturn.svg"
          playerOne.Selection.push(number)
          Gameboard.game.push(number)
-         console.log("PlayerOne" + " " + playerOne.Selection)
-         console.log(playerOne)
-         console.log("Gameboard = " + Gameboard.game)
          Playerx = false;
          Playero = true;
          console.log(Playerx +" "+ Playero)
@@ -247,16 +254,13 @@ function Selected(number) {
          findWinner(playerOne.Selection, playerOne.name)
          tieGame(Gameboard.game)
          SelectRandom()
-      }
-      } else{
+       }
+   } else {
    document.getElementById(number).classList.add('already-selected')
    if (Playerx == true && Playero == false) {
       title.src = "./assets/oturn.svg"
       playerOne.Selection.push(number)
       Gameboard.game.push(number)
-      console.log("PlayerOne" + " " + playerOne.Selection)
-      console.log(playerOne)
-      console.log("Gameboard = " + Gameboard.game)
       Playerx = false;
       Playero = true;
       console.log(Playerx +" "+ Playero)
@@ -270,22 +274,16 @@ function Selected(number) {
       title.src = "./assets/xturn.svg"
       playerTwo.Selection.push(number)
       Gameboard.game.push(number)
-      console.log("PlayerTwo" + " " + playerTwo.Selection)
-      console.log(playerTwo)
-      console.log("Gameboard = " + Gameboard.game)
       Playerx = true;
       Playero = false;
-      console.log(Playerx +" "+ Playero)
-
       const pSelection = document.createElement("div");
       pSelection.classList.add('player-selection-o');
       document.getElementById(number).appendChild(pSelection)
-
       findWinner(playerTwo.Selection, playerTwo.name)   
       tieGame(Gameboard.game)
+   }
+ }
 }
-
-}}
 function findWinner(array, player) {
       if(array.includes(1) && array.includes(2) && array.includes(3) 
       || array.includes(1) && array.includes(4) && array.includes(7) 
@@ -297,7 +295,7 @@ function findWinner(array, player) {
       || array.includes(3) && array.includes(6) && array.includes(9)
       || array.includes(3) && array.includes(5) && array.includes(7)
       ){
-         alert(player +"  Wins!")
+         EndGameModal(player)
          return gameOver = true
       };
     }
@@ -314,16 +312,13 @@ function findWinner(array, player) {
         }
       }
       if (isTie) {
-        alert("tie!!!");
+         EndGameModal("tie");
       }
     }
    }
 
 
-//Background Music    
-window.onload = function() {
-   document.getElementById("track").play();
-}
+
 
 let track = document.getElementById('track');
 let controlBtn = document.getElementById('volume');
