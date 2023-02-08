@@ -1,11 +1,10 @@
 
-
 let modal = document.querySelector(".modal")
 let modalBack = document.querySelector(".modalBack")
 let endofgamemodal = document.querySelector(".end-game-modal")
 let modalX = document.getElementById("player-selection-x")
 let modalO = document.getElementById("player-selection-o")
-let modlaPlayerTitle = document.getElementById("modal-title-player")
+let modalPlayerTitle = document.getElementById("modal-title-player")
 let selectShapeTitle = document.getElementById("selectShape")
 let WinnerplayerName = document.getElementById("player-winner-name")
 let mainMenuButton = document.getElementById("main-menu")
@@ -76,25 +75,29 @@ function Gamestarted() {
    let startGame = false;
 }
 
+let showModal = () => {
+
+   modal.style.display = "flex"
+}
 
 function verzus() {
-   modal.style.display = "flex"
+   showModal()
    next.style.backgroundImage = 'url(./assets/next.svg)'
    next.addEventListener('click', () => nextPlayerGameVersus())
 }
 
 function computer() {
-   modal.style.display = "flex"
+   showModal()
    next.style.backgroundImage = 'url(./assets/start.svg)'
    next.addEventListener('click', () => startGameComputer())
 }
 
 function impossible() {
-   modal.style.display = "flex"
+   showModal()
    next.style.backgroundImage = 'url(./assets/start.svg)'
    next.addEventListener('click', () => startGameImpossible())
-
 }
+
 function EndGameModal(winner) {
    endofgamemodal.style.display = "flex"
    if(winner == "tie"){
@@ -115,7 +118,7 @@ let nextPlayerGameVersus = () => {
    playerOne.name = playername.value
    modalX.style.display = "none"
    modalO.style.display = "none"
-   modlaPlayerTitle.src = ("./assets/playertwo-title.svg")
+   modalPlayerTitle.src = ("./assets/playertwo-title.svg")
    selectShapeTitle.style.display = "none"
    playername.value = "";
    next.style.display = "none"
@@ -151,22 +154,25 @@ let startGameVerzus = () => {
 }
 
 let startGameImpossible = () => {
+   playerOne.name = playername.value
+   playerTwo.name = "Computer"
    startGameUI()
+   ImpossibleComputer()
+   ImpossibleComputer = true 
 }
 
 let startGameComputer = () => {
    playerOne.name = playername.value
    playerTwo.name = "Computer"
    startGameUI()
-   randomComputerLogic()
+   randomComputer = true 
 }
 
 let randomComputer = false;
+let ImpossibleComputer = false;
 
-let randomComputerLogic = () => {
-   randomComputer = true
-  
-}
+
+
 
 let restartGame = () => {
    return
@@ -200,7 +206,7 @@ function CheckInput() {
    }
  }
  
-   function closeModal(){
+function closeModal(){
       next.style.pointerEvents = "none"
       next.style.opacity = 10+"%"
       modal.style.display = "none"
@@ -219,71 +225,79 @@ let randomNumber
          SelectRandom()
       } else{
          let number = randomNumber
-         title.src = "./assets/xturn.svg"
          playerTwo.Selection.push(number)
          Gameboard.game.push(number)
          console.log("PlayerTwo" + " " + playerTwo.Selection)
          console.log("Gameboard = " + Gameboard.game)
          Playerx = true;
          Playero = false;
-         console.log(Playerx +" "+ Playero)
-         const pSelection = document.createElement("div");
-         pSelection.classList.add('player-selection-o');
-         document.getElementById(number).appendChild(pSelection)
+         addO(number)
          findWinner(playerTwo.Selection, playerTwo.name)   
          tieGame(Gameboard.game)
-         
       }
    }
    
 
+function addX(number) {
+   document.getElementById(number).classList.add('already-selected')
+   title.src = "./assets/oturn.svg"
+   const Selection = document.createElement("div");
+      Selection.classList.add('player-selection-x');
+      document.getElementById(number).appendChild(Selection)
+}   
 
-function Selected(number) {   
+function addO(number) {
+   document.getElementById(number).classList.add('already-selected')
+   title.src = "./assets/xturn.svg"
+   const Selection = document.createElement("div");
+   Selection.classList.add('player-selection-o');
+   document.getElementById(number).appendChild(Selection)
+}
 
-   if (randomComputer == true) {
-      if (Playerx == true && Playero == false) {
-         title.src = "./assets/oturn.svg"
+function Selected(number) {      
+   if (ImpossibleComputer == true) {
          playerOne.Selection.push(number)
          Gameboard.game.push(number)
          Playerx = false;
          Playero = true;
-         console.log(Playerx +" "+ Playero)
-         const pSelection = document.createElement("div");
-         pSelection.classList.add('player-selection-x');
-         document.getElementById(number).appendChild(pSelection)
+         addX(number)
+         findWinner(playerOne.Selection, playerOne.name)
+         tieGame(Gameboard.game)
+         SelectRandom()
+      }
+   else if (randomComputer == true) {
+      if (Playerx == true && Playero == false) {
+         playerOne.Selection.push(number)
+         Gameboard.game.push(number)
+         Playerx = false;
+         Playero = true;
+         addX(number)
          findWinner(playerOne.Selection, playerOne.name)
          tieGame(Gameboard.game)
          SelectRandom()
        }
    } else {
-   document.getElementById(number).classList.add('already-selected')
    if (Playerx == true && Playero == false) {
-      title.src = "./assets/oturn.svg"
       playerOne.Selection.push(number)
       Gameboard.game.push(number)
       Playerx = false;
       Playero = true;
-      console.log(Playerx +" "+ Playero)
-      const pSelection = document.createElement("div");
-      pSelection.classList.add('player-selection-x');
-      document.getElementById(number).appendChild(pSelection)
+      addX(number)
       findWinner(playerOne.Selection, playerOne.name)
       tieGame(Gameboard.game)
       return playerOne.Selection      
    } else{
-      title.src = "./assets/xturn.svg"
       playerTwo.Selection.push(number)
       Gameboard.game.push(number)
       Playerx = true;
       Playero = false;
-      const pSelection = document.createElement("div");
-      pSelection.classList.add('player-selection-o');
-      document.getElementById(number).appendChild(pSelection)
+      addO(number)
       findWinner(playerTwo.Selection, playerTwo.name)   
       tieGame(Gameboard.game)
    }
  }
 }
+
 function findWinner(array, player) {
       if(array.includes(1) && array.includes(2) && array.includes(3) 
       || array.includes(1) && array.includes(4) && array.includes(7) 
@@ -316,6 +330,63 @@ function findWinner(array, player) {
       }
     }
    }
+
+
+//Impossible
+
+
+// Create a function to get the indexes of all the empty cells:
+function getAvailableMoves(numbers) {
+   if (!numbers.every(number => number >= 1 && number <= 9)) {
+      return [];
+   }
+
+   const fullSet = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+   const missingNumbers = fullSet.filter(number => !numbers.includes(number));
+   return missingNumbers;
+}
+
+function applyMove(gameboard, move, player) {
+   // Make a copy of the current gameboard
+   var newGameboard = gameboard.slice();
+   // Apply the move to the copy of the gameboard
+   newGameboard[move] = player;
+   // Return the updated gameboard
+   return newGameboard;
+ }
+ 
+
+function minimax() {
+   let randomNumberImposible
+   if (Gameboard.game.length < 9 && !Gameboard.game.includes(randomNumberImposible)) {
+      randomNumber =  Math.floor(Math.random() * 9) + 1;} else {
+         minimax()
+      }  
+      if (Gameboard.game.includes(randomNumberImposible)) {
+         minimax()
+      } else{
+         let number = randomNumberImposible
+         title.src = "./assets/xturn.svg"
+         playerTwo.Selection.push(number)
+         Gameboard.game.push(number)
+         console.log("PlayerTwo" + " " + playerTwo.Selection)
+         console.log("Gameboard = " + Gameboard.game)
+         Playerx = true;
+         Playero = false;
+         console.log(Playerx +" "+ Playero)
+         const pSelection = document.createElement("div");
+         pSelection.classList.add('player-selection-o');
+         document.getElementById(number).appendChild(pSelection)
+         findWinner(playerTwo.Selection, playerTwo.name)   
+         tieGame(Gameboard.game)
+         
+      }
+   }
+   
+
+
+
+
 
 
 
@@ -351,9 +422,6 @@ let player = (name, selection) => {
    let lives = 3;
     return {name, selection, lives}
 } */
-
-
-
 
 
 

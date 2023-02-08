@@ -11,6 +11,8 @@ body {
     background-color: #0f0f0f;
     background-size: 182vh;
     overflow-y: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -400,4 +402,26 @@ input:focus {
     background: rgba(36, 36, 36, 0.157);
     backdrop-filter: blur(4px);
     z-index: 1;
+}
+
+
+
+@media only screen and (max-width: 720px) {
+
+    #player-selection-x {
+        width: 32vw;
+    }
+
+    #player-selection-o {
+        width: 32vw;
+    }
+
+    #player-selection-x:hover {
+        width: 32vw;
+    }
+
+    #player-selection-o:hover {
+        width: 32vw;
+    }
+
 }
