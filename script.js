@@ -1,30 +1,28 @@
 
-let modal = document.querySelector(".modal")
-let modalBack = document.querySelector(".modalBack")
-let endofgamemodal = document.querySelector(".end-game-modal")
-let modalX = document.getElementById("player-selection-x")
-let modalO = document.getElementById("player-selection-o")
-let modalPlayerTitle = document.getElementById("modal-title-player")
-let selectShapeTitle = document.getElementById("selectShape")
-let WinnerplayerName = document.getElementById("player-winner-name")
-let mainMenuButton = document.getElementById("main-menu")
-let vs = document.getElementById("vs")
-let computerButton = document.getElementById("computer")
-let impossibleButton = document.getElementById("impossible")
-let playAgainBtn = document.getElementById("play-again")
-let mainMenu = document.getElementById("main-menu")
-let gameMessage = document.getElementById("game-message")
-
-let restart = document.querySelector("#restart")
-let back = document.querySelector("#back")
+const modal = document.querySelector(".modal")
+const modalBack = document.querySelector(".modalBack")
+const endofgamemodal = document.querySelector(".end-game-modal")
+const modalX = document.getElementById("player-selection-x")
+const modalO = document.getElementById("player-selection-o")
+const modalPlayerTitle = document.getElementById("modal-title-player")
+const selectShapeTitle = document.getElementById("selectShape")
+const WinnerplayerName = document.getElementById("player-winner-name")
+const mainMenuButton = document.getElementById("main-menu")
+const vs = document.getElementById("vs")
+const computerButton = document.getElementById("computer")
+const impossibleButton = document.getElementById("impossible")
+const playAgainBtn = document.getElementById("play-again")
+const mainMenu = document.getElementById("main-menu")
+const gameMessage = document.getElementById("game-message")
+const restart = document.querySelector("#restart")
+const back = document.querySelector("#back")
 const title = document.getElementById("titleText")
 const squares =  document.querySelectorAll(".game-selection")
-
-let playername = document.getElementById("Player-name");
-let next = document.getElementById('next')
-let start = document.getElementById('start')
-let gameboard = document.querySelector(".gameboard")
-let chooseGame = document.querySelector(".chooseGame")
+const playername = document.getElementById("Player-name");
+const next = document.getElementById('next')
+const start = document.getElementById('start')
+const gameboard = document.querySelector(".gameboard")
+const chooseGame = document.querySelector(".chooseGame")
 
 squares.forEach(square => {
    square.addEventListener("click", () => 
@@ -44,29 +42,34 @@ mainMenu.addEventListener("click", () => window.location.reload())
 playAgainBtn.addEventListener("click", () => window.location.reload())
 
 
-let Playerx = true
-let Playero = false
+
+
+let randomComputer = false;
+let impossibleComputer = false;
 
 let modalSelection = false;
-
 let xSelected = false
 let oSelected = false
-
+let turn = ""
 //Set up Gameboard Array in gameboard object
 let Gameboard = {
-   game: []
+   game: [],
+   x: [],
+   o: []
 }
 
 
 let playerOne = {
    Selection: [],
-   name: ""
+   name: "",
+   shape: "",
 }
 
 
 let playerTwo = {
    Selection: [],
-   name: ""
+   name: "",
+   shape: "",
 }
 
 let gameOver = false;
@@ -138,7 +141,7 @@ let nextPlayerGameVersus = () => {
 
 
 
-let startGameUI = () => {
+const startGameUI = () => {
    closeModal()
    title.src = "./assets/xturn.svg"
    gameboard.style.display = "grid"
@@ -147,29 +150,40 @@ let startGameUI = () => {
    back.style.display = "flex"
 }
 
-let startGameVerzus = () => {
+const startGameVerzus = () => {
+   if (playerOne.shape == "x") {
+      turn = "playerOne"
+   }else if (playerOne.shape == "o") {
+      turn = "playerTwo"
+   }
    playerTwo.name = playername.value
    startGameUI()
-   console.log(playerTwo.name)
 }
 
-let startGameImpossible = () => {
+const startGameImpossible = () => {
+   if (playerOne.shape == "x") {
+      turn = "playerOne"
+   }else if (playerOne.shape == "o") {
+      turn = "playerTwo"
+   }
+   impossibleComputer = true
    playerOne.name = playername.value
    playerTwo.name = "Computer"
-   startGameUI()
-   ImpossibleComputer()
-   ImpossibleComputer = true 
+   startGameUI() 
 }
 
 let startGameComputer = () => {
+   if (playerOne.shape == "x") {
+      turn = "playerOne"
+   }else if (playerOne.shape == "o") {
+      turn = "playerTwo"
+      SelectRandom()
+   }
+   randomComputer = true
    playerOne.name = playername.value
    playerTwo.name = "Computer"
    startGameUI()
-   randomComputer = true 
 }
-
-let randomComputer = false;
-let ImpossibleComputer = false;
 
 
 
@@ -181,8 +195,8 @@ let restartGame = () => {
 
 //Player Selection Modal
 function selectX(){
-      xSelected = true
-      oSelected = false
+      playerOne.shape = "x",
+      playerTwo.shape = "o"
       modalX.style.backgroundImage = 'url(./assets/selected-shape-x.svg)'
       modalO.style.backgroundImage = 'url(./assets/player-selection-o.svg)'
       modalSelection = true;
@@ -190,8 +204,8 @@ function selectX(){
 }
 
 function selectO(){
-      oSelected = true
-      xSelected = false
+      playerOne.shape = "o",
+      playerTwo.shape = "x"
       modalO.style.backgroundImage = 'url(./assets/selected-shape-o.svg)'
       modalX.style.backgroundImage = 'url(./assets/player-selection-x.svg)'
       modalSelection = true;
@@ -225,15 +239,7 @@ let randomNumber
          SelectRandom()
       } else{
          let number = randomNumber
-         playerTwo.Selection.push(number)
-         Gameboard.game.push(number)
-         console.log("PlayerTwo" + " " + playerTwo.Selection)
-         console.log("Gameboard = " + Gameboard.game)
-         Playerx = true;
-         Playero = false;
-         addO(number)
-         findWinner(playerTwo.Selection, playerTwo.name)   
-         tieGame(Gameboard.game)
+         Selected(number)
       }
    }
    
@@ -242,8 +248,8 @@ function addX(number) {
    document.getElementById(number).classList.add('already-selected')
    title.src = "./assets/oturn.svg"
    const Selection = document.createElement("div");
-      Selection.classList.add('player-selection-x');
-      document.getElementById(number).appendChild(Selection)
+   Selection.classList.add('player-selection-x');
+   document.getElementById(number).appendChild(Selection)
 }   
 
 function addO(number) {
@@ -254,49 +260,43 @@ function addO(number) {
    document.getElementById(number).appendChild(Selection)
 }
 
+
 function Selected(number) {      
-   if (ImpossibleComputer == true) {
-         playerOne.Selection.push(number)
-         Gameboard.game.push(number)
-         Playerx = false;
-         Playero = true;
-         addX(number)
-         findWinner(playerOne.Selection, playerOne.name)
-         tieGame(Gameboard.game)
-         SelectRandom()
-      }
-   else if (randomComputer == true) {
-      if (Playerx == true && Playero == false) {
-         playerOne.Selection.push(number)
-         Gameboard.game.push(number)
-         Playerx = false;
-         Playero = true;
-         addX(number)
-         findWinner(playerOne.Selection, playerOne.name)
-         tieGame(Gameboard.game)
-         SelectRandom()
-       }
-   } else {
-   if (Playerx == true && Playero == false) {
+  if (turn == "playerOne"){
       playerOne.Selection.push(number)
       Gameboard.game.push(number)
-      Playerx = false;
-      Playero = true;
-      addX(number)
       findWinner(playerOne.Selection, playerOne.name)
       tieGame(Gameboard.game)
-      return playerOne.Selection      
-   } else{
+      if (playerOne.shape == "x"){
+      addX(number)
+      }
+      else{
+      addO(number)
+      }
+      turn = "playerTwo"
+      if (randomComputer == true) {
+         SelectRandom();
+      }
+      if (impossibleComputer == true) {
+         minimax();
+      }
+     return [playerOne.Selection, turn]
+  }  
+  if(turn == "playerTwo"){
       playerTwo.Selection.push(number)
       Gameboard.game.push(number)
-      Playerx = true;
-      Playero = false;
-      addO(number)
       findWinner(playerTwo.Selection, playerTwo.name)   
       tieGame(Gameboard.game)
-   }
+      if (playerTwo.shape == "x"){
+         addX(number)
+         }else{
+         addO(number)
+         }
+      turn = "playerOne"
+      return [playerTwo.Selection,turn]   
  }
 }
+
 
 function findWinner(array, player) {
       if(array.includes(1) && array.includes(2) && array.includes(3) 
@@ -331,61 +331,20 @@ function findWinner(array, player) {
     }
    }
 
-
-//Impossible
-
-
-// Create a function to get the indexes of all the empty cells:
-function getAvailableMoves(numbers) {
-   if (!numbers.every(number => number >= 1 && number <= 9)) {
-      return [];
-   }
-
-   const fullSet = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-   const missingNumbers = fullSet.filter(number => !numbers.includes(number));
-   return missingNumbers;
-}
-
-function applyMove(gameboard, move, player) {
-   // Make a copy of the current gameboard
-   var newGameboard = gameboard.slice();
-   // Apply the move to the copy of the gameboard
-   newGameboard[move] = player;
-   // Return the updated gameboard
-   return newGameboard;
- }
- 
-
+/*  
 function minimax() {
-   let randomNumberImposible
-   if (Gameboard.game.length < 9 && !Gameboard.game.includes(randomNumberImposible)) {
+   let randomNumber
+   if (Gameboard.game.length < 9 && !Gameboard.game.includes(randomNumber)) {
       randomNumber =  Math.floor(Math.random() * 9) + 1;} else {
          minimax()
       }  
-      if (Gameboard.game.includes(randomNumberImposible)) {
+      if (Gameboard.game.includes(randomNumber)) {
          minimax()
       } else{
-         let number = randomNumberImposible
-         title.src = "./assets/xturn.svg"
-         playerTwo.Selection.push(number)
-         Gameboard.game.push(number)
-         console.log("PlayerTwo" + " " + playerTwo.Selection)
-         console.log("Gameboard = " + Gameboard.game)
-         Playerx = true;
-         Playero = false;
-         console.log(Playerx +" "+ Playero)
-         const pSelection = document.createElement("div");
-         pSelection.classList.add('player-selection-o');
-         document.getElementById(number).appendChild(pSelection)
-         findWinner(playerTwo.Selection, playerTwo.name)   
-         tieGame(Gameboard.game)
-         
+         let number = randomNumber
+         Selected(number)
       }
-   }
-   
-
-
-
+   } */
 
 
 
@@ -415,13 +374,6 @@ track.addEventListener("ended", function() {
 });
 
 
-
-/* 
-let player = (name, selection) => {
-   let selection = selection;
-   let lives = 3;
-    return {name, selection, lives}
-} */
 
 
 
