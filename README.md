@@ -11,4 +11,12 @@
 <br>
 
 
-[Preview](https://uxmauro.github.io/Tic-tac-toe) 🕹️
+## [Preview](https://uxmauro.github.io/Tic-tac-toe) 🕹️
+
+
+<br>
+
+## Todo:
+- [x] 1 vs 1
+- [x] VS Computer Random
+- [ ] VS Computer Impossible
