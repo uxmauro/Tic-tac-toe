@@ -163,8 +163,9 @@ const startGameVerzus = () => {
 const startGameImpossible = () => {
    if (playerOne.shape == "x") {
       turn = "playerOne"
-   }else if (playerOne.shape == "o") {
+   } else if (playerOne.shape == "o") {
       turn = "playerTwo"
+      makeImpossibleMove();
    }
    impossibleComputer = true
    playerOne.name = playername.value
@@ -278,7 +279,7 @@ function Selected(number) {
          SelectRandom();
       }
       if (impossibleComputer == true) {
-         minimax();
+         makeImpossibleMove();
       }
      return [playerOne.Selection, turn]
   }  
@@ -331,24 +332,75 @@ function findWinner(array, player) {
     }
    }
 
-/*  
-function minimax() {
-   let randomNumber
-   if (Gameboard.game.length < 9 && !Gameboard.game.includes(randomNumber)) {
-      randomNumber =  Math.floor(Math.random() * 9) + 1;} else {
-         minimax()
-      }  
-      if (Gameboard.game.includes(randomNumber)) {
-         minimax()
-      } else{
-         let number = randomNumber
-         Selected(number)
-      }
-   } */
+function makeImpossibleMove() {
+    if (gameOver) return;
+    
+    let bestScore = -Infinity;
+    let bestMove;
+    
+    for (let i = 1; i <= 9; i++) {
+        if (!Gameboard.game.includes(i)) {
+            Gameboard.game.push(i);
+            playerTwo.Selection.push(i);
+            let score = minimax(Gameboard.game, playerOne.Selection, playerTwo.Selection, false);
+            Gameboard.game.pop();
+            playerTwo.Selection.pop();
+            
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = i;
+            }
+        }
+    }
+    
+    Selected(bestMove);
+}
 
+function minimax(board, playerOneSelection, playerTwoSelection, isMaximizing) {
+    if (checkWinner(playerOneSelection)) return -1;
+    if (checkWinner(playerTwoSelection)) return 1;
+    if (board.length === 9) return 0;
+    
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 1; i <= 9; i++) {
+            if (!board.includes(i)) {
+                board.push(i);
+                playerTwoSelection.push(i);
+                let score = minimax(board, playerOneSelection, playerTwoSelection, false);
+                board.pop();
+                playerTwoSelection.pop();
+                bestScore = Math.max(score, bestScore);
+            }
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 1; i <= 9; i++) {
+            if (!board.includes(i)) {
+                board.push(i);
+                playerOneSelection.push(i);
+                let score = minimax(board, playerOneSelection, playerTwoSelection, true);
+                board.pop();
+                playerOneSelection.pop();
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
+    }
+}
 
-
-
+function checkWinner(array) {
+    const winningCombos = [
+        [1, 2, 3], [4, 5, 6], [7, 8, 9],
+        [1, 4, 7], [2, 5, 8], [3, 6, 9],
+        [1, 5, 9], [3, 5, 7]
+    ];
+    
+    return winningCombos.some(combo => 
+        combo.every(num => array.includes(num))
+    );
+}
 
 let track = document.getElementById('track');
 let controlBtn = document.getElementById('volume');
