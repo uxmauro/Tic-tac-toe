@@ -19,4 +19,25 @@
 ## Todo:
 - [x] 1 vs 1
 - [x] VS Computer Random
-- [ ] VS Computer Impossible
+- [x] VS Computer Impossible
+
+## Installation Instructions
+1. Clone the repository: `git clone https://github.com/yourusername/Tic-tac-toe.git`
+2. Open `index.html` in your browser.
+
+## Usage
+- Open the game in your browser and follow the on-screen instructions to play.
+
+## Features
+- Play against another player or the computer.
+- Different difficulty levels against the computer.
+
+## Technologies Used
+- HTML
+- CSS
+- JavaScript
+
+## Contributing
+Feel free to submit a pull request or open an issue for any suggestions.
+
+
