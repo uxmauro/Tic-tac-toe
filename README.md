@@ -16,7 +16,7 @@
 
 <br>
 
-## Todo:
+## Features:
 - [x] 1 vs 1
 - [x] VS Computer Random
 - [x] VS Computer Impossible
